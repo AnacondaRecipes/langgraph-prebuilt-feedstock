@@ -1,7 +1,6 @@
 upload_channels:
   - sfe1ed40
 
-# the conda build parameters to use
 build_parameters:
   - "--suppress-variables"
   - "--skip-existing"

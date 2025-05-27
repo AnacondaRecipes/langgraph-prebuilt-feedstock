@@ -6,7 +6,7 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/langgraph_prebuilt-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
   sha256: 3bdc2054cab54c2fd81f334974568316977ac96b678d5a3d95bf443aef6507d5
 
 build:
@@ -21,8 +21,9 @@ requirements:
     - hatchling
   run:
     - python
-    - langgraph-checkpoint >=2.0.10
     - langchain-core >=0.3.22
+    # cyclic dependency --no-test is used. After merging langgraph-checkpoint and langgraph need to bump the version and rebuild this pkg.
+    - langgraph-checkpoint >=2.0.10
     - langgraph
 
 test:

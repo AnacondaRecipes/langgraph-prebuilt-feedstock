@@ -1,2 +1,10 @@
 upload_channels:
   - sfe1ed40
+
+build_parameters:
+  - "--no-test"
+
+channels:
+  - https://staging.continuum.io/prefect/fs/langgraph-checkpoint-feedstock/pr1/f2b0be2
+  - https://staging.continuum.io/prefect/fs/ormsgpack-feedstock/pr1/fe28324
+  - https://staging.continuum.io/prefect/fs/langgraph-feedstock/pr1/84fbc52

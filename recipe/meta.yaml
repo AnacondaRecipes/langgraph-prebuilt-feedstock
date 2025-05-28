@@ -22,21 +22,23 @@ requirements:
   run:
     - python
     - langchain-core >=0.3.22
-    # cyclic dependency --no-test is used. After merging langgraph-checkpoint and langgraph need to bump the version and rebuild this pkg.
+    # Cyclic dependency between langgraph-checkpoint and langgraph and langgraph-prebuilt. --no-test is used.
+    # Error:
+    # The following package could not be installed
+    # └─ langgraph =* * is not installable because it requires
+    #    └─ langgraph-prebuilt >=0.2.0 *, which does not exist (perhaps a missing channel).
     - langgraph-checkpoint >=2.0.10
     - langgraph
 
+# Psycopg version 1 is not available in the main conda channel, but the conftest.py configuration requires psycopg v1 to enable tests, creating an unresolvable dependency.
 test:
-  source_files:
-    - tests
   imports:
     - langgraph.prebuilt
   commands:
     - pip check
-    - pytest -v tests
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
   requires:
     - pip
-    - pytest
 
 about:
   home: https://www.github.com/langchain-ai/langgraph

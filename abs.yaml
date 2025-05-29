@@ -1,6 +1,8 @@
 upload_channels:
   - sfe1ed40
 
-channels:
-  - https://staging.continuum.io/prefect/fs/langgraph-checkpoint-feedstock/pr1/f2b0be2
-  - https://staging.continuum.io/prefect/fs/ormsgpack-feedstock/pr1/fe28324
+build_parameters:
+  - "--no-test"
+  - "--suppress-variables"
+  - "--skip-existing"
+  - "--error-overlinking"

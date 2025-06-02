@@ -8,13 +8,21 @@ package:
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
   sha256: 3bdc2054cab54c2fd81f334974568316977ac96b678d5a3d95bf443aef6507d5
+  patches:
+    # E   ModuleNotFoundError: No module named 'psycopg-pool'
+    # E   ModuleNotFoundError: No module named 'langgraph-checkpoint-postgres'
+    # E   ModuleNotFoundError: No module named 'langgraph-checkpoint-sqlite'
+    - patches/0001-removed-the-pool-and-unavailable-checkpointers.patch
 
 build:
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   skip: True  # [py<39]
 
 requirements:
+  build:
+    - patch  # [not win]
+    - m2-patch  # [win]
   host:
     - python
     - pip
@@ -23,16 +31,26 @@ requirements:
     - python
     - langchain-core >=0.3.22
     - langgraph-checkpoint >=2.0.10
+    - langgraph
 
-# Psycopg version 1 is not available in the main conda channel, but the conftest.py configuration requires psycopg v1 to enable tests, creating an unresolvable dependency.
+# E   ModuleNotFoundError: No module named 'syrupy'
+{% set ignore_tests = " --ignore=tests/test_react_agent_graph.py" %}
+
 test:
+  source_files:
+    - tests
   imports:
     - langgraph.prebuilt
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - pytest -v {{ ignore_tests }} tests
   requires:
     - pip
+    - pytest
+    - pytest-asyncio
+    - pytest-mock
+    - psycopg
 
 about:
   home: https://www.github.com/langchain-ai/langgraph

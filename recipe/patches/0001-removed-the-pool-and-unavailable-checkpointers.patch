@@ -1,0 +1,232 @@
+From 2ba8035f4d5ee975f21d2ec8a1621608024ce670 Mon Sep 17 00:00:00 2001
+From: Andrii Osipov <aosipov@anaconda.com>
+Date: Mon, 2 Jun 2025 02:18:40 -0700
+Subject: [PATCH] removed the pool and unavailable checkpointers
+
+---
+ tests/conftest.py              | 128 ++++++++++++++++-----------------
+ tests/conftest_checkpointer.py |  10 +--
+ tests/conftest_store.py        |   2 +-
+ 3 files changed, 70 insertions(+), 70 deletions(-)
+
+diff --git a/tests/conftest.py b/tests/conftest.py
+index 8ba0771..f5cc897 100644
+--- a/tests/conftest.py
++++ b/tests/conftest.py
+@@ -10,23 +10,23 @@ from langgraph.checkpoint.base import BaseCheckpointSaver
+ from langgraph.store.base import BaseStore
+ from tests.conftest_checkpointer import (
+     _checkpointer_memory,
+-    _checkpointer_postgres,
+-    _checkpointer_postgres_aio,
+-    _checkpointer_postgres_aio_pipe,
+-    _checkpointer_postgres_aio_pool,
+-    _checkpointer_postgres_pipe,
+-    _checkpointer_postgres_pool,
+-    _checkpointer_sqlite,
+-    _checkpointer_sqlite_aio,
++    #_checkpointer_postgres,
++    #_checkpointer_postgres_aio,
++    #_checkpointer_postgres_aio_pipe,
++    #_checkpointer_postgres_aio_pool,
++    #_checkpointer_postgres_pipe,
++    #_checkpointer_postgres_pool,
++    #_checkpointer_sqlite,
++    #_checkpointer_sqlite_aio,
+ )
+ from tests.conftest_store import (
+     _store_memory,
+-    _store_postgres,
+-    _store_postgres_aio,
+-    _store_postgres_aio_pipe,
+-    _store_postgres_aio_pool,
+-    _store_postgres_pipe,
+-    _store_postgres_pool,
++    #_store_postgres,
++    #_store_postgres_aio,
++    #_store_postgres_aio_pipe,
++    #_store_postgres_aio_pool,
++    #_store_postgres_pipe,
++    #_store_postgres_pool,
+ )
+ 
+ pytest.register_assert_rewrite("tests.memory_assert")
+@@ -64,15 +64,15 @@ def sync_store(request: pytest.FixtureRequest) -> Iterator[BaseStore]:
+     elif store_name == "in_memory":
+         with _store_memory() as store:
+             yield store
+-    elif store_name == "postgres":
+-        with _store_postgres() as store:
+-            yield store
+-    elif store_name == "postgres_pipe":
+-        with _store_postgres_pipe() as store:
+-            yield store
+-    elif store_name == "postgres_pool":
+-        with _store_postgres_pool() as store:
+-            yield store
++    #elif store_name == "postgres":
++    #    with _store_postgres() as store:
++    #        yield store
++    #elif store_name == "postgres_pipe":
++    #    with _store_postgres_pipe() as store:
++    #        yield store
++    #elif store_name == "postgres_pool":
++    #    with _store_postgres_pool() as store:
++    #        yield store
+     else:
+         raise NotImplementedError(f"Unknown store {store_name}")
+ 
+@@ -88,15 +88,15 @@ async def async_store(request: pytest.FixtureRequest) -> AsyncIterator[BaseStore
+     elif store_name == "in_memory":
+         with _store_memory() as store:
+             yield store
+-    elif store_name == "postgres_aio":
+-        async with _store_postgres_aio() as store:
+-            yield store
+-    elif store_name == "postgres_aio_pipe":
+-        async with _store_postgres_aio_pipe() as store:
+-            yield store
+-    elif store_name == "postgres_aio_pool":
+-        async with _store_postgres_aio_pool() as store:
+-            yield store
++    #elif store_name == "postgres_aio":
++    #    async with _store_postgres_aio() as store:
++    #        yield store
++    #elif store_name == "postgres_aio_pipe":
++    #    async with _store_postgres_aio_pipe() as store:
++    #        yield store
++    #elif store_name == "postgres_aio_pool":
++    #    async with _store_postgres_aio_pool() as store:
++    #        yield store
+     else:
+         raise NotImplementedError(f"Unknown store {store_name}")
+ 
+@@ -105,10 +105,10 @@ async def async_store(request: pytest.FixtureRequest) -> AsyncIterator[BaseStore
+     scope="function",
+     params=[
+         "memory",
+-        "sqlite",
+-        "postgres",
+-        "postgres_pipe",
+-        "postgres_pool",
++        #"sqlite",
++        #"postgres",
++        #"postgres_pipe",
++        #"postgres_pool",
+     ],
+ )
+ def sync_checkpointer(
+@@ -118,18 +118,18 @@ def sync_checkpointer(
+     if checkpointer_name == "memory":
+         with _checkpointer_memory() as checkpointer:
+             yield checkpointer
+-    elif checkpointer_name == "sqlite":
+-        with _checkpointer_sqlite() as checkpointer:
+-            yield checkpointer
+-    elif checkpointer_name == "postgres":
+-        with _checkpointer_postgres() as checkpointer:
+-            yield checkpointer
+-    elif checkpointer_name == "postgres_pipe":
+-        with _checkpointer_postgres_pipe() as checkpointer:
+-            yield checkpointer
+-    elif checkpointer_name == "postgres_pool":
+-        with _checkpointer_postgres_pool() as checkpointer:
+-            yield checkpointer
++    #elif checkpointer_name == "sqlite":
++    #    with _checkpointer_sqlite() as checkpointer:
++    #        yield checkpointer
++    #elif checkpointer_name == "postgres":
++    #    with _checkpointer_postgres() as checkpointer:
++    #        yield checkpointer
++    #elif checkpointer_name == "postgres_pipe":
++    #    with _checkpointer_postgres_pipe() as checkpointer:
++    #        yield checkpointer
++    #elif checkpointer_name == "postgres_pool":
++    #    with _checkpointer_postgres_pool() as checkpointer:
++    #        yield checkpointer
+     else:
+         raise NotImplementedError(f"Unknown checkpointer: {checkpointer_name}")
+ 
+@@ -138,10 +138,10 @@ def sync_checkpointer(
+     scope="function",
+     params=[
+         "memory",
+-        "sqlite_aio",
+-        "postgres_aio",
+-        "postgres_aio_pipe",
+-        "postgres_aio_pool",
++        #"sqlite_aio",
++        #"postgres_aio",
++        #"postgres_aio_pipe",
++        #"postgres_aio_pool",
+     ],
+ )
+ async def async_checkpointer(
+@@ -151,17 +151,17 @@ async def async_checkpointer(
+     if checkpointer_name == "memory":
+         with _checkpointer_memory() as checkpointer:
+             yield checkpointer
+-    elif checkpointer_name == "sqlite_aio":
+-        async with _checkpointer_sqlite_aio() as checkpointer:
+-            yield checkpointer
+-    elif checkpointer_name == "postgres_aio":
+-        async with _checkpointer_postgres_aio() as checkpointer:
+-            yield checkpointer
+-    elif checkpointer_name == "postgres_aio_pipe":
+-        async with _checkpointer_postgres_aio_pipe() as checkpointer:
+-            yield checkpointer
+-    elif checkpointer_name == "postgres_aio_pool":
+-        async with _checkpointer_postgres_aio_pool() as checkpointer:
+-            yield checkpointer
++    #elif checkpointer_name == "sqlite_aio":
++    #    async with _checkpointer_sqlite_aio() as checkpointer:
++    #        yield checkpointer
++    #elif checkpointer_name == "postgres_aio":
++    #    async with _checkpointer_postgres_aio() as checkpointer:
++    #        yield checkpointer
++    #elif checkpointer_name == "postgres_aio_pipe":
++    #    async with _checkpointer_postgres_aio_pipe() as checkpointer:
++    #        yield checkpointer
++    #elif checkpointer_name == "postgres_aio_pool":
++    #    async with _checkpointer_postgres_aio_pool() as checkpointer:
++    #        yield checkpointer
+     else:
+         raise NotImplementedError(f"Unknown checkpointer: {checkpointer_name}")
+diff --git a/tests/conftest_checkpointer.py b/tests/conftest_checkpointer.py
+index b3c7820..93611da 100644
+--- a/tests/conftest_checkpointer.py
++++ b/tests/conftest_checkpointer.py
+@@ -4,12 +4,12 @@ from uuid import uuid4
+ 
+ import pytest
+ from psycopg import AsyncConnection, Connection
+-from psycopg_pool import AsyncConnectionPool, ConnectionPool
++#from psycopg_pool import AsyncConnectionPool, ConnectionPool
+ 
+-from langgraph.checkpoint.postgres import PostgresSaver
+-from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
+-from langgraph.checkpoint.sqlite import SqliteSaver
+-from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
++#from langgraph.checkpoint.postgres import PostgresSaver
++#from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
++#from langgraph.checkpoint.sqlite import SqliteSaver
++#from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
+ from tests.memory_assert import MemorySaverAssertImmutable
+ 
+ DEFAULT_POSTGRES_URI = "postgres://postgres:postgres@localhost:5442/"
+diff --git a/tests/conftest_store.py b/tests/conftest_store.py
+index 9d047a8..30ee02c 100644
+--- a/tests/conftest_store.py
++++ b/tests/conftest_store.py
+@@ -6,7 +6,7 @@ import pytest
+ from psycopg import AsyncConnection, Connection
+ 
+ from langgraph.store.memory import InMemoryStore
+-from langgraph.store.postgres import AsyncPostgresStore, PostgresStore
++#from langgraph.store.postgres import AsyncPostgresStore, PostgresStore
+ 
+ DEFAULT_POSTGRES_URI = "postgres://postgres:postgres@localhost:5442/"
+ 
+-- 
+2.39.3 (Apple Git-146)
+

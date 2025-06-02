@@ -11,7 +11,6 @@ source:
 
 build:
   number: 0
-  noarch: python
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
@@ -23,7 +22,6 @@ requirements:
     - python >=3.9
     - langchain-core >=0.3.22
     - langgraph-checkpoint >=2.0.10
-    - langgraph
 
 # Psycopg version 1 is not available in the main conda channel, but the conftest.py configuration requires psycopg v1 to enable tests, creating an unresolvable dependency.
 test:

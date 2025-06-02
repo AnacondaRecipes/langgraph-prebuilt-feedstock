@@ -9,8 +9,9 @@ source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
   sha256: 3bdc2054cab54c2fd81f334974568316977ac96b678d5a3d95bf443aef6507d5
   patches:
-    #E   ModuleNotFoundError: No module named 'psycopg-pool'
-    #E   ModuleNotFoundError: No module named 'langgraph-checkpoint-postgres'
+    # E   ModuleNotFoundError: No module named 'psycopg-pool'
+    # E   ModuleNotFoundError: No module named 'langgraph-checkpoint-postgres'
+    # E   ModuleNotFoundError: No module named 'langgraph-checkpoint-sqlite'
     - patches/0001-removed-the-pool-and-unavailable-checkpointers.patch
 
 build:

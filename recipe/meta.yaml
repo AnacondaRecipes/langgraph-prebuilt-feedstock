@@ -6,39 +6,43 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/langgraph_prebuilt-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
   sha256: 3bdc2054cab54c2fd81f334974568316977ac96b678d5a3d95bf443aef6507d5
 
 build:
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  skip: True  # [py<39]
 
 requirements:
   host:
-    - python {{ python_min }}
-    - hatchling
+    - python
     - pip
+    - hatchling
   run:
-    - python >={{ python_min }},<4.0
-    - langgraph-checkpoint >=2.0.10
+    - python
     - langchain-core >=0.3.22
-    - langgraph
+    - langgraph-checkpoint >=2.0.10
 
+# Psycopg version 1 is not available in the main conda channel, but the conftest.py configuration requires psycopg v1 to enable tests, creating an unresolvable dependency.
 test:
   imports:
     - langgraph.prebuilt
   commands:
     - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
   requires:
     - pip
-    - python {{ python_min }}
 
 about:
   home: https://www.github.com/langchain-ai/langgraph
   summary: Library with high-level APIs for creating and executing LangGraph agents and tools.
   license: MIT
+  license_family: MIT
   license_file: LICENSE
+  description: Library with high-level APIs for creating and executing LangGraph agents and tools.
+  dev_url: https://github.com/langchain-ai/langgraph/tree/main/libs/prebuilt
+  doc_url: https://github.com/langchain-ai/langgraph/blob/main/libs/prebuilt/README.md
 
 extra:
   recipe-maintainers:

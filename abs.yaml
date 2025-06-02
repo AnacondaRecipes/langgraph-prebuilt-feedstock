@@ -1,0 +1,8 @@
+upload_channels:
+  - sfe1ed40
+
+build_parameters:
+  - "--no-test"
+  - "--suppress-variables"
+  - "--skip-existing"
+  - "--error-overlinking"

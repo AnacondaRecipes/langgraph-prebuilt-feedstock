@@ -15,7 +15,7 @@ source:
     - patches/0001-removed-the-pool-and-unavailable-checkpointers.patch
 
 build:
-  number: 1
+  number: 2
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   skip: True  # [py<39]
 
@@ -32,6 +32,8 @@ requirements:
     - langchain-core >=0.3.22
     - langgraph-checkpoint >=2.0.10
     - langgraph
+    # https://github.com/langchain-ai/langgraph/issues/5086
+    - langchain
 
 # E   ModuleNotFoundError: No module named 'syrupy'
 {% set ignore_tests = " --ignore=tests/test_react_agent_graph.py" %}

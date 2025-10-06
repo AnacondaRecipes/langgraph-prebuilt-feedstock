@@ -33,23 +33,25 @@ requirements:
     - langchain
 
 # E   ModuleNotFoundError: No module named 'syrupy'
-{% set ignore_tests = " --ignore=tests/test_react_agent_graph.py" %}
+# {% set ignore_tests = " --ignore=tests/test_react_agent_graph.py" %}
 
-test:
-  source_files:
-    - tests
-  imports:
-    - langgraph.prebuilt
-  commands:
-    - pip check
-    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - pytest -v {{ ignore_tests }} tests
-  requires:
-    - pip
-    - pytest
-    - pytest-asyncio
-    - pytest-mock
-    - psycopg
+# Temporarily comment out test section due to cycle dependency with langgraph.
+# Package needs to be rebuilt with tests after langgraph release.
+# test:
+#   source_files:
+#     - tests
+#   imports:
+#     - langgraph.prebuilt
+#   commands:
+#     - pip check
+#     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+#     - pytest -v {{ ignore_tests }} tests
+#   requires:
+#     - pip
+#     - pytest
+#     - pytest-asyncio
+#     - pytest-mock
+#     - psycopg
 
 about:
   home: https://www.github.com/langchain-ai/langgraph

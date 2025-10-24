@@ -1,5 +1,5 @@
 {% set name = "langgraph-prebuilt" %}
-{% set version = "0.6.4" %}
+{% set version = "1.0.1" %}
 
 package:
   name: {{ name|lower }}
@@ -7,17 +7,17 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
-  sha256: e9e53b906ee5df46541d1dc5303239e815d3ec551e52bb03dd6463acc79ec28f
-  patches:
+  sha256: ecbfb9024d9d7ed9652dde24eef894650aaab96bf79228e862c503e2a060b469
+  # patches:
     # E   ModuleNotFoundError: No module named 'psycopg-pool'
     # E   ModuleNotFoundError: No module named 'langgraph-checkpoint-postgres'
     # E   ModuleNotFoundError: No module named 'langgraph-checkpoint-sqlite'
-    - patches/0001-removed-the-pool-and-unavailable-checkpointers.patch
+    # - patches/0001-removed-the-pool-and-unavailable-checkpointers.patch
 
 build:
-  number: 1
+  number: 0
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  skip: True  # [py<39]
+  skip: True  # [py<310]
 
 requirements:
   host:
@@ -27,29 +27,37 @@ requirements:
   run:
     - python
     - langchain-core >=0.3.67
-    - langgraph-checkpoint >=2.1.0,<3.0.0
-    - langgraph
+    - langgraph-checkpoint >=2.1.0,<4.0.0
+    # Commented out due to cycle dependency with langgraph which is not on main yet.
+    # - langgraph
     # https://github.com/langchain-ai/langgraph/issues/5086
     - langchain
 
-# E   ModuleNotFoundError: No module named 'syrupy'
-{% set ignore_tests = " --ignore=tests/test_react_agent_graph.py" %}
+# Temporarily comment out test section due to cycle dependency with langgraph.
+# Package needs to be rebuilt with tests after langgraph release.
 
-test:
-  source_files:
-    - tests
-  imports:
-    - langgraph.prebuilt
-  commands:
-    - pip check
-    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - pytest -v {{ ignore_tests }} tests
-  requires:
-    - pip
-    - pytest
-    - pytest-asyncio
-    - pytest-mock
-    - psycopg
+# E   ModuleNotFoundError: No module named 'syrupy'
+# {% set ignore_tests = " --ignore=tests/test_react_agent_graph.py" %}
+
+# test:
+#   source_files:
+#     - tests
+#   imports:
+#     - langgraph.prebuilt
+#     - langgraph.prebuilt.chat_agent_executor
+#     - langgraph.prebuilt.interrupt
+#     - langgraph.prebuilt.tool_node
+#     - langgraph.prebuilt.tool_validator
+#   commands:
+#     - pip check
+#     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+#     - pytest -v {{ ignore_tests }} tests
+#   requires:
+#     - pip
+#     - pytest
+#     - pytest-asyncio
+#     - pytest-mock
+#     - psycopg
 
 about:
   home: https://www.github.com/langchain-ai/langgraph

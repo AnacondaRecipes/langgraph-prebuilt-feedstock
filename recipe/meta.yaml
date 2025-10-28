@@ -54,7 +54,6 @@ test:
     - pytest-asyncio
     - pytest-mock
     - psycopg
-    - python-xxhash
 
 about:
   home: https://www.github.com/langchain-ai/langgraph

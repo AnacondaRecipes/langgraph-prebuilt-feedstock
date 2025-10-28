@@ -1,20 +1,19 @@
-From c56806857b1f859ba08cd504e11040d69ab5dc0a Mon Sep 17 00:00:00 2001
+From 0123aa9f767dc795ff85a3a1b8daeed879e10d4b Mon Sep 17 00:00:00 2001
 From: Patryk Kups <pkups@anaconda.com>
-Date: Mon, 6 Oct 2025 17:42:28 +0200
+Date: Tue, 28 Oct 2025 09:10:14 +0100
 Subject: [PATCH] patch
 
 ---
  tests/conftest.py              | 28 ++++++++++++++--------------
  tests/conftest_checkpointer.py | 10 +++++-----
- tests/conftest_store.py        |  2 +-
- 3 files changed, 20 insertions(+), 20 deletions(-)
+ 2 files changed, 19 insertions(+), 19 deletions(-)
 
 diff --git a/tests/conftest.py b/tests/conftest.py
-index bb44383..dee92ca 100644
+index 72ee4ad..12a38b1 100644
 --- a/tests/conftest.py
 +++ b/tests/conftest.py
-@@ -9,23 +9,23 @@ from langgraph.checkpoint.base import BaseCheckpointSaver
- from langgraph.store.base import BaseStore
+@@ -9,23 +9,23 @@ from pytest_mock import MockerFixture
+ 
  from tests.conftest_checkpointer import (
      _checkpointer_memory,
 -    _checkpointer_postgres,
@@ -52,15 +51,12 @@ index bb44383..dee92ca 100644
  
  pytest.register_assert_rewrite("tests.memory_assert")
 diff --git a/tests/conftest_checkpointer.py b/tests/conftest_checkpointer.py
-index b3c7820..5949e54 100644
+index c71e46c..e06e950 100644
 --- a/tests/conftest_checkpointer.py
 +++ b/tests/conftest_checkpointer.py
-@@ -4,12 +4,12 @@ from uuid import uuid4
- 
- import pytest
- from psycopg import AsyncConnection, Connection
--from psycopg_pool import AsyncConnectionPool, ConnectionPool
-+# from psycopg_pool import AsyncConnectionPool, ConnectionPool
+@@ -1,12 +1,12 @@
+ from contextlib import asynccontextmanager, contextmanager
+ from uuid import uuid4
  
 -from langgraph.checkpoint.postgres import PostgresSaver
 -from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
@@ -70,21 +66,11 @@ index b3c7820..5949e54 100644
 +# from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
 +# from langgraph.checkpoint.sqlite import SqliteSaver
 +# from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
- from tests.memory_assert import MemorySaverAssertImmutable
- 
- DEFAULT_POSTGRES_URI = "postgres://postgres:postgres@localhost:5442/"
-diff --git a/tests/conftest_store.py b/tests/conftest_store.py
-index 9d047a8..02bbce0 100644
---- a/tests/conftest_store.py
-+++ b/tests/conftest_store.py
-@@ -6,7 +6,7 @@ import pytest
  from psycopg import AsyncConnection, Connection
+-from psycopg_pool import AsyncConnectionPool, ConnectionPool
++# from psycopg_pool import AsyncConnectionPool, ConnectionPool
  
- from langgraph.store.memory import InMemoryStore
--from langgraph.store.postgres import AsyncPostgresStore, PostgresStore
-+# from langgraph.store.postgres import AsyncPostgresStore, PostgresStore
- 
- DEFAULT_POSTGRES_URI = "postgres://postgres:postgres@localhost:5442/"
+ from tests.memory_assert import MemorySaverAssertImmutable
  
 -- 
 2.39.5 (Apple Git-154)

@@ -1,12 +1,13 @@
-From 0123aa9f767dc795ff85a3a1b8daeed879e10d4b Mon Sep 17 00:00:00 2001
+From 0a1447fbf6ffbff7866f1d2ec840b3e0011b9b8f Mon Sep 17 00:00:00 2001
 From: Patryk Kups <pkups@anaconda.com>
-Date: Tue, 28 Oct 2025 09:10:14 +0100
+Date: Tue, 28 Oct 2025 12:13:08 +0100
 Subject: [PATCH] patch
 
 ---
  tests/conftest.py              | 28 ++++++++++++++--------------
  tests/conftest_checkpointer.py | 10 +++++-----
- 2 files changed, 19 insertions(+), 19 deletions(-)
+ tests/conftest_store.py        |  2 +-
+ 3 files changed, 20 insertions(+), 20 deletions(-)
 
 diff --git a/tests/conftest.py b/tests/conftest.py
 index 72ee4ad..12a38b1 100644
@@ -72,6 +73,19 @@ index c71e46c..e06e950 100644
  
  from tests.memory_assert import MemorySaverAssertImmutable
  
+diff --git a/tests/conftest_store.py b/tests/conftest_store.py
+index 4ae8c24..25ae3c0 100644
+--- a/tests/conftest_store.py
++++ b/tests/conftest_store.py
+@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager, contextmanager
+ from uuid import uuid4
+ 
+ from langgraph.store.memory import InMemoryStore
+-from langgraph.store.postgres import AsyncPostgresStore, PostgresStore
++# from langgraph.store.postgres import AsyncPostgresStore, PostgresStore
+ from psycopg import AsyncConnection, Connection
+ 
+ DEFAULT_POSTGRES_URI = "postgres://postgres:postgres@localhost:5442/"
 -- 
 2.39.5 (Apple Git-154)
 

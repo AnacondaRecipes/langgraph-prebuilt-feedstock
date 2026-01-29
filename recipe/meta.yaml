@@ -15,7 +15,7 @@ source:
     - patches/0001-removed-the-pool-and-unavailable-checkpointers.patch
 
 build:
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   skip: True  # [py<310]
 
@@ -28,33 +28,32 @@ requirements:
     - python
     - langchain-core >=1.0.0
     - langgraph-checkpoint >=2.1.0,<5.0.0
-    # # Commented out due to cycle dependency with langgraph and langchain which is not on main yet.
-    # - langgraph
+    - langgraph
     # https://github.com/langchain-ai/langgraph/issues/5086
-    # - langchain
+    - langchain 1.2.6
 
 # E   ModuleNotFoundError: No module named 'syrupy'
 {% set ignore_tests = " --ignore=tests/test_react_agent_graph.py" %}
 
-# test:
-#   source_files:
-#     - tests
-#   imports:
-#     - langgraph.prebuilt
-#     - langgraph.prebuilt.chat_agent_executor
-#     - langgraph.prebuilt.interrupt
-#     - langgraph.prebuilt.tool_node
-#     - langgraph.prebuilt.tool_validator
-#   commands:
-#     - pip check
-#     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-#     - pytest -v {{ ignore_tests }} tests
-#   requires:
-#     - pip
-#     - pytest
-#     - pytest-asyncio
-#     - pytest-mock
-#     - psycopg # [py<314]
+test:
+  source_files:
+    - tests
+  imports:
+    - langgraph.prebuilt
+    - langgraph.prebuilt.chat_agent_executor
+    - langgraph.prebuilt.interrupt
+    - langgraph.prebuilt.tool_node
+    - langgraph.prebuilt.tool_validator
+  commands:
+    - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - pytest -v {{ ignore_tests }} tests
+  requires:
+    - pip
+    - pytest
+    - pytest-asyncio
+    - pytest-mock
+    - psycopg
 
 about:
   home: https://www.github.com/langchain-ai/langgraph

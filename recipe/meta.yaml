@@ -26,34 +26,38 @@ requirements:
     - hatchling
   run:
     - python
-  #   - langchain-core >=1.0.0
-  #   - langgraph-checkpoint >=2.1.0,<5.0.0
-  #   - langgraph
-  #   # https://github.com/langchain-ai/langgraph/issues/5086
-  #   - langchain
+    - langchain-core >=1.0.0
+    - langgraph-checkpoint >=2.1.0,<5.0.0
+    - langgraph
+    # https://github.com/langchain-ai/langgraph/issues/5086
+    - langchain
 
 # E   ModuleNotFoundError: No module named 'syrupy'
-# {% set ignore_tests = " --ignore=tests/test_react_agent_graph.py" %}
+{% set ignore_tests = " --ignore=tests/test_react_agent_graph.py" %}
 
-# test:
-#   source_files:
-#     - tests
-#   imports:
-#     - langgraph.prebuilt
-#     - langgraph.prebuilt.chat_agent_executor
-#     - langgraph.prebuilt.interrupt
-#     - langgraph.prebuilt.tool_node
-#     - langgraph.prebuilt.tool_validator
-#   commands:
-#     - pip check
-#     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-#     - pytest -v {{ ignore_tests }} tests
-#   requires:
-#     - pip
-#     - pytest
-#     - pytest-asyncio
-#     - pytest-mock
-#     - psycopg
+test:
+  source_files:
+    - tests
+  imports:
+    - langgraph.prebuilt
+    - langgraph.prebuilt.chat_agent_executor
+    - langgraph.prebuilt.interrupt
+    - langgraph.prebuilt.tool_node
+    - langgraph.prebuilt.tool_validator
+  commands:
+    - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - pytest -v {{ ignore_tests }} tests
+  requires:
+    - pip
+    - pytest
+    - xxhash
+    - pytest-asyncio
+    - pytest-mock
+    - psycopg
+    - langchain-core
+    - langgraph
+    - langgraph-checkpoint
 
 about:
   home: https://www.github.com/langchain-ai/langgraph

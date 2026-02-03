@@ -51,7 +51,7 @@ test:
   requires:
     - pip
     - pytest
-    - xxhash
+    - python-xxhash
     - pytest-asyncio
     - pytest-mock
     - psycopg

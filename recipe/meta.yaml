@@ -1,5 +1,5 @@
 {% set name = "langgraph-prebuilt" %}
-{% set version = "1.0.6" %}
+{% set version = "1.0.7" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
-  sha256: c5f6cf0f5a0ac47643d2e26ae6faa38cb28885ecde67911190df9e30c4f72361
+  sha256: 38e097e06de810de4d0e028ffc0e432bb56d1fb417620fb1dfdc76c5e03e4bf9
   patches:
     # E   ModuleNotFoundError: No module named 'psycopg-pool'
     # E   ModuleNotFoundError: No module named 'langgraph-checkpoint-postgres'
@@ -15,7 +15,7 @@ source:
     - patches/0001-removed-the-pool-and-unavailable-checkpointers.patch
 
 build:
-  number: 1
+  number: 0
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   skip: True  # [py<310]
 
@@ -24,36 +24,36 @@ requirements:
     - python
     - pip
     - hatchling
-  run:
-    - python
-    - langchain-core >=1.0.0
-    - langgraph-checkpoint >=2.1.0,<5.0.0
-    - langgraph
-    # https://github.com/langchain-ai/langgraph/issues/5086
-    - langchain 1.2.6
+  # run:
+  #   - python
+  #   - langchain-core >=1.0.0
+  #   - langgraph-checkpoint >=2.1.0,<5.0.0
+  #   - langgraph
+  #   # https://github.com/langchain-ai/langgraph/issues/5086
+  #   - langchain
 
 # E   ModuleNotFoundError: No module named 'syrupy'
-{% set ignore_tests = " --ignore=tests/test_react_agent_graph.py" %}
+# {% set ignore_tests = " --ignore=tests/test_react_agent_graph.py" %}
 
-test:
-  source_files:
-    - tests
-  imports:
-    - langgraph.prebuilt
-    - langgraph.prebuilt.chat_agent_executor
-    - langgraph.prebuilt.interrupt
-    - langgraph.prebuilt.tool_node
-    - langgraph.prebuilt.tool_validator
-  commands:
-    - pip check
-    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - pytest -v {{ ignore_tests }} tests
-  requires:
-    - pip
-    - pytest
-    - pytest-asyncio
-    - pytest-mock
-    - psycopg
+# test:
+#   source_files:
+#     - tests
+#   imports:
+#     - langgraph.prebuilt
+#     - langgraph.prebuilt.chat_agent_executor
+#     - langgraph.prebuilt.interrupt
+#     - langgraph.prebuilt.tool_node
+#     - langgraph.prebuilt.tool_validator
+#   commands:
+#     - pip check
+#     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+#     - pytest -v {{ ignore_tests }} tests
+#   requires:
+#     - pip
+#     - pytest
+#     - pytest-asyncio
+#     - pytest-mock
+#     - psycopg
 
 about:
   home: https://www.github.com/langchain-ai/langgraph

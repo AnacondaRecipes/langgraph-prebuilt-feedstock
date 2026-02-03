@@ -15,7 +15,7 @@ source:
     - patches/0001-removed-the-pool-and-unavailable-checkpointers.patch
 
 build:
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   skip: True  # [py<310]
 
@@ -24,8 +24,8 @@ requirements:
     - python
     - pip
     - hatchling
-  # run:
-  #   - python
+  run:
+    - python
   #   - langchain-core >=1.0.0
   #   - langgraph-checkpoint >=2.1.0,<5.0.0
   #   - langgraph

@@ -57,6 +57,7 @@ test:
     - psycopg
     - langchain-core
     - langgraph
+    - langgraph-sdk
     - langgraph-checkpoint
 
 about:

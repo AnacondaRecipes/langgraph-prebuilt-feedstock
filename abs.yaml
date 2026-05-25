@@ -1,0 +1,5 @@
+
+# Disabled because langgraph.stream from langgraph 1.2.0+ is not available on the main channel.
+# http://github.com/langchain-ai/langgraph/issues/7908
+build_parameters:
+  - "--no-test"

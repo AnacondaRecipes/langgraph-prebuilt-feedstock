@@ -36,12 +36,13 @@ requirements:
 test:
   source_files:
     - tests
-  imports:
-    - langgraph.prebuilt
-    - langgraph.prebuilt.chat_agent_executor
-    - langgraph.prebuilt.interrupt
-    - langgraph.prebuilt.tool_node
-    - langgraph.prebuilt.tool_validator
+  # Disabled because langgraph.stream from langgraph 1.2.0+ is not available on the main channel.
+  # imports:
+  #   - langgraph.prebuilt
+  #   - langgraph.prebuilt.chat_agent_executor
+  #   - langgraph.prebuilt.interrupt
+  #   - langgraph.prebuilt.tool_node
+  #   - langgraph.prebuilt.tool_validator
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"

@@ -1,2 +1,5 @@
-build_env_vars:
-  ANACONDA_ROCKET_ENABLE_PY314 : yes
+
+# Disabled because langgraph.stream from langgraph 1.2.0+ is not available on the main channel.
+# http://github.com/langchain-ai/langgraph/issues/7908
+build_parameters:
+  - "--no-test"

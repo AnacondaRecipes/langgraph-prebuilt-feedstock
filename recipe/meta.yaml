@@ -1,5 +1,5 @@
 {% set name = "langgraph-prebuilt" %}
-{% set version = "1.0.7" %}
+{% set version = "1.1.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
-  sha256: 38e097e06de810de4d0e028ffc0e432bb56d1fb417620fb1dfdc76c5e03e4bf9
+  sha256: 3c579cf6eed2d17f9c157c2d0fcaddcd8688524e7022d3b22b37a3bf4589d528
   patches:
     # E   ModuleNotFoundError: No module named 'psycopg-pool'
     # E   ModuleNotFoundError: No module named 'langgraph-checkpoint-postgres'
@@ -15,9 +15,9 @@ source:
     - patches/0001-removed-the-pool-and-unavailable-checkpointers.patch
 
 build:
-  number: 2
+  number: 0
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  skip: True  # [py<310]
+  skip: true  # [py<310]
 
 requirements:
   host:
@@ -26,11 +26,9 @@ requirements:
     - hatchling
   run:
     - python
-    - langchain-core >=1.0.0
+    # https://github.com/langchain-ai/langgraph/blob/1.2.1/libs/prebuilt/pyproject.toml
+    - langchain-core >=1.3.1
     - langgraph-checkpoint >=2.1.0,<5.0.0
-    - langgraph
-    # https://github.com/langchain-ai/langgraph/issues/5086
-    - langchain
 
 # E   ModuleNotFoundError: No module named 'syrupy'
 {% set ignore_tests = " --ignore=tests/test_react_agent_graph.py" %}
